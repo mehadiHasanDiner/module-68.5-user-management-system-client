@@ -1,18 +1,16 @@
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const UpdateUser = ({ singleUser, loading }) => {
+const UpdateUser = ({ singleUser }) => {
+  const [updatedUser, setUpdatedUser] = useState();
+  console.log(singleUser);
+
   const { handleSubmit, control, register, setValue, reset } = useForm();
 
-  // const { name, email, radioOption1, radioOption2 } = singleUser;
-  // if (loading) {
-  //   return <span>Loading...</span>;
-  // }
-  // console.log(singleUser?.email);
-
   const onSubmit = (data) => {
-    fetch("http://localhost:5000/users", {
-      method: "POST",
+    fetch(`http://localhost:5000/users/${singleUser?._id}`, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
@@ -20,15 +18,15 @@ const UpdateUser = ({ singleUser, loading }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        if (data.insertedId) {
+        if (data.modifiedCount > 0) {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: "User Created successfully",
+            title: "User Updated successfully",
             showConfirmButton: false,
             timer: 1500,
           });
+
           reset();
         }
       });
@@ -80,6 +78,7 @@ const UpdateUser = ({ singleUser, loading }) => {
               </label>
               <input
                 className="w-full border p-2 rounded"
+                defaultValue={singleUser?.url}
                 {...register("url")}
               />
             </div>

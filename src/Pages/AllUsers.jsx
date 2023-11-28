@@ -109,7 +109,11 @@ const AllUsers = () => {
           </table>
           <input type="checkbox" id="my_modal_6" className="modal-toggle" />
           <div className="modal" role="dialog">
-            <UpdateUser singleUser={singleUser} loading={loading}></UpdateUser>
+            <UpdateUser
+              singleUser={singleUser}
+              setSingleUser={setSingleUser}
+              loading={loading}
+            ></UpdateUser>
           </div>
         </div>
       </div>
